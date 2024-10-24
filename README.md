@@ -1,2 +1,2 @@
-stramlit--https://desicodersdeepfakeaudio.streamlit.app/
+streamlit--https://desicodersdeepfakeaudio.streamlit.app/
 
