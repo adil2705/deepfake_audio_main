@@ -23,7 +23,7 @@ def extract_features(audio_file, sr=16000):
     return mfccs
 
 # Load the trained LSTM model
-model = tf.keras.models.load_model("Model/lstm.h5")
+model = tf.keras.models.load_model("Model/ann.h5")
 
 # Function to detect a fake voice
 def detect_fake_voice(audio_file, model):
