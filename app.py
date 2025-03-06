@@ -22,8 +22,8 @@ def extract_features(audio_file, sr=16000):
 
     return mfccs
 
-# Load the trained model
-model = tf.keras.models.load_model("Model/ann.h5")
+# Load the trained LSTM model
+model = tf.keras.models.load_model("Model/lstm.h5")
 
 # Function to detect a fake voice
 def detect_fake_voice(audio_file, model):
@@ -35,7 +35,6 @@ def detect_fake_voice(audio_file, model):
 st.title("DeepFake Audio Detection")
 st.write("desicoder's ")
 
-
 uploaded_file = st.file_uploader("Choose an audio file", type=["wav", "mp3"])
 
 if uploaded_file is not None:
@@ -44,6 +43,9 @@ if uploaded_file is not None:
     
     # Create a BytesIO object for librosa to load
     audio_file = io.BytesIO(audio_bytes)
+
+    # 🎧 **Audio Playback**
+    st.audio(audio_bytes, format="audio/wav")
 
     # Run detection
     prediction = detect_fake_voice(audio_file, model)
