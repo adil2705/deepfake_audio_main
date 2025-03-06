@@ -69,9 +69,6 @@ if uploaded_file is not None:
     st.subheader("🔎 Analysis Result")
     st.write(f"**Prediction Score:** {prediction[0][0]:.4f}")
     
-    if np.max(prediction) > 0.5:
-        st.error("🚨 This audio might be **fake**!")
-    else:
-        st.success("✅ This audio seems **real**!")
+   
     
     st.markdown(f"**Feedback:** {feedback_message}")
