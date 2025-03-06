@@ -31,11 +31,23 @@ def detect_fake_voice(audio_file, model):
     prediction = model.predict(np.expand_dims(mfccs, axis=0))
     return prediction
 
-# Streamlit app
-st.title("DeepFake Audio Detection")
-st.write("desicoder's ")
+# Streamlit app UI
+st.set_page_config(page_title="DeepFake Audio Detection", page_icon="🔊", layout="wide")
 
-uploaded_file = st.file_uploader("Choose an audio file", type=["wav", "mp3"])
+st.title("🔍 DeepFake Audio Detection")
+st.markdown(
+    """
+    ### 🎙️ Detect Fake Audio with AI
+    Upload an audio file and let our AI model analyze it to determine whether it's real or fake.
+    The model evaluates speech patterns using deep learning and provides a confidence score.
+    """
+)
+
+# Information box
+st.info("Supported formats: WAV, MP3. Maximum duration: 1 minute.")
+
+# File uploader
+uploaded_file = st.file_uploader("📂 Upload an audio file", type=["wav", "mp3"], help="Choose an audio file to analyze")
 
 if uploaded_file is not None:
     # Read the uploaded file as a bytes-like object
@@ -44,7 +56,7 @@ if uploaded_file is not None:
     # Create a BytesIO object for librosa to load
     audio_file = io.BytesIO(audio_bytes)
 
-    # 🎧 **Audio Playback**
+    # Display audio player
     st.audio(audio_bytes, format="audio/wav")
 
     # Run detection
@@ -54,5 +66,12 @@ if uploaded_file is not None:
     feedback_message = feedback(np.max(prediction))  # Pass the maximum prediction score to your feedback function
 
     # Display results
-    st.write("Prediction Score: ", prediction)
-    st.write("Feedback: ", feedback_message)
+    st.subheader("🔎 Analysis Result")
+    st.write(f"**Prediction Score:** {prediction[0][0]:.4f}")
+    
+    if np.max(prediction) > 0.5:
+        st.error("🚨 This audio might be **fake**!")
+    else:
+        st.success("✅ This audio seems **real**!")
+    
+    st.markdown(f"**Feedback:** {feedback_message}")
